@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import useActivateGameLoop from "@/game_engine/loop";
 import useDetectCollision from "@/game_engine/collision_detection";
 import useObstacles from "@/game_engine/obstacles";
@@ -47,7 +47,14 @@ export default function useGameEngine({ charCoords }) {
         charCoords,
         obstacleRefs
     })
-    useActivateGameLoop({ isGameOver, isPaused, setObstacles, activeObstacleIndex, setActiveObstacleIndex })
+
+    const maxValue = useMemo(() => obstacles.reduce((max, obj) => {
+        return obj.position > max ? obj.position : max;
+    }, 0), []);
+
+    useActivateGameLoop({
+        isGameOver, isPaused, setObstacles, activeObstacleIndex, setActiveObstacleIndex, lastObstaclePosition: maxValue
+    })
 
     useEffect(() => {
         if (detectCollision()) {
