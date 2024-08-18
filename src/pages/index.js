@@ -13,7 +13,7 @@ const Dino = forwardRef(({ jump, isJumping, height, width }, ref) => {
                 transform: 'translateX(-50%)', // Adjust for perfect centering
                 width: `${width}px`,
                 height: `${height}px`,
-                backgroundColor: 'green',
+                backgroundColor: 'blue',
                 transition: 'bottom 0.3s ease',
             }}
         ></div>
@@ -31,12 +31,11 @@ const Obstacle = forwardRef(({ position }, ref) => {
                 bottom: '0px',
                 width: '35px',
                 height: '50px',
-                backgroundColor: 'red',
+                backgroundColor: 'green',
             }}
         ></div>
     );
 });
-
 
 const generatePosition = (modifier = 1) => {
     return typeof window !== "undefined" ? window.innerWidth * modifier : 0
