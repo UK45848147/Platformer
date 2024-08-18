@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import useActivateGameLoop from "@/game_engine/loop";
 import useDetectCollision from "@/game_engine/collision_detection";
+import useObstacles from "@/game_engine/obstacles";
 
 const useIsPaused = () => {
     const [isPaused, setIsPaused] = useState(false)
@@ -36,7 +37,8 @@ const usePoints = ({ isGameOver, isPaused }) => {
     return parseInt(points/10)
 }
 
-export default function useGameEngine({ setObstacles, activeObstacleIndex, setActiveObstacleIndex, charCoords }) {
+export default function useGameEngine({ charCoords }) {
+    const { obstacles, setActiveObstacleIndex, setObstacles, activeObstacleIndex } = useObstacles();
     const [isGameOver, setIsGameOver] = useState(false);
     const isPaused = useIsPaused();
     const points = usePoints({ isGameOver, isPaused })
@@ -56,6 +58,7 @@ export default function useGameEngine({ setObstacles, activeObstacleIndex, setAc
     return {
         points,
         obstacleRefs,
-        isGameOver
+        isGameOver,
+        obstacles
     }
 }

@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+const GAME_MOVEMENT_INTERVAL_MS = 30;
+const CHANGE_ON_INTERVAL_PX = 10;
 export default function useActivateGameLoop({ isGameOver, isPaused, setObstacles, activeObstacleIndex, setActiveObstacleIndex }) {
     useEffect(() => {
         if (isGameOver || isPaused) return;
@@ -13,11 +15,11 @@ export default function useActivateGameLoop({ isGameOver, isPaused, setObstacles
                     }
                     return obstacle.position <= 0
                         ? { ...obstacle, position: window.innerWidth }
-                        : { ...obstacle, position: obstacle.position - 10 };
+                        : { ...obstacle, position: obstacle.position - CHANGE_ON_INTERVAL_PX };
                 })
             );
-        }, 50);
+        }, GAME_MOVEMENT_INTERVAL_MS);
 
         return () => clearInterval(intervalId);
-    }, [isGameOver, isPaused, activeObstacleIndex, setObstacles]);
+    }, [isGameOver, isPaused, activeObstacleIndex, setObstacles, setActiveObstacleIndex]);
 }

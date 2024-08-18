@@ -32,8 +32,8 @@ const useCharacterMovement = ({
 export default function useCharacter() {
     const charRef = useRef(null);
     const [charCoords, setCharCoords] = useState({ x: 200, y: 300 });
-    const [jump, setJump] = useState(false)
-    useCharacterMovement({ jump, setJump, charCoords })
+    const [jumpClicked, setJumpClicked] = useState(false)
+    useCharacterMovement({ jump: jumpClicked, setJump: setJumpClicked, charCoords })
 
     useEffect(() => {
         if (charRef.current) {
@@ -53,14 +53,14 @@ export default function useCharacter() {
             }
         };
 
-        if (jump) {
+        if (jumpClicked) {
             animateJump();
         }
 
         return () => {
             cancelAnimationFrame(requestAnimationFrame);
         };
-    }, [jump, charRef]);
+    }, [jumpClicked, charRef]);
 
-    return { charRef, charCoords, jump, setJump, setCharCoords };
+    return { charRef, charCoords, jumpClicked, setCharCoords };
 }
