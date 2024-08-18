@@ -15,9 +15,10 @@ export const Character = forwardRef(({ jumpClicked, isJumping, height, width }, 
                 width: `${width}px`,
                 height: `${height}px`,
                 borderRadius: '50%',
-                backgroundColor: 'green',
                 transition: `bottom ${JUMP_AIRTIME_S}s ease`,
             }}
-        ></div>
+        >
+            <img width={"100%"} height={"100%"} src={'./chicken.svg'} alt="char" />
+        </div>
     );
 })

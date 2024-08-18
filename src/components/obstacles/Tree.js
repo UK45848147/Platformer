@@ -1,7 +1,7 @@
 import {forwardRef} from "react";
 
 // eslint-disable-next-line react/display-name
-export  const Pillar = forwardRef(({ position }, ref) => {
+export  const Tree = forwardRef(({ position }, ref) => {
     return (
         <div
             ref={ref}
@@ -9,10 +9,11 @@ export  const Pillar = forwardRef(({ position }, ref) => {
                 position: 'absolute',
                 right: `${position}px`,
                 bottom: '0px',
-                width: '35px',
-                height: '50px',
-                backgroundColor: 'red',
+                width: '80px',
+                height: '60px',
             }}
-        ></div>
+        >
+            <img src="/tree.svg" height="100%" width="100%" alt="wheat" />
+        </div>
     );
 });
