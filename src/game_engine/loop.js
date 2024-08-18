@@ -3,7 +3,8 @@ import {GAME_WIDTH} from "@/constants/game";
 
 const GAME_MOVEMENT_INTERVAL_MS = 1;
 const CHANGE_ON_INTERVAL_PX = 4;
-export default function useActivateGameLoop({ isGameOver, isPaused, setObstacles, activeObstacleIndex, setActiveObstacleIndex }) {
+export default function useActivateGameLoop({ isGameOver, isPaused, setObstacles, activeObstacleIndex, setActiveObstacleIndex, lastObstaclePosition }) {
+    console.log(lastObstaclePosition)
     useEffect(() => {
         if (isGameOver || isPaused) return;
 
@@ -12,10 +13,10 @@ export default function useActivateGameLoop({ isGameOver, isPaused, setObstacles
                 prevObstacles.map((obstacle, index) => {
                     if (index === activeObstacleIndex && obstacle.position <= 0) {
                         setActiveObstacleIndex((prevIndex) => (prevIndex + 1) % prevObstacles.length);
-                        return { ...obstacle, position: GAME_WIDTH + 700 };
+                        return { ...obstacle, position: GAME_WIDTH + (lastObstaclePosition) };
                     }
                     return obstacle.position <= 0
-                        ? { ...obstacle, position: GAME_WIDTH + 700 }
+                        ? { ...obstacle, position: GAME_WIDTH + (lastObstaclePosition) }
                         : { ...obstacle, position: obstacle.position - CHANGE_ON_INTERVAL_PX };
                 })
             );
