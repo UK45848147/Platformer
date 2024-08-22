@@ -13,22 +13,22 @@ export default function useCollisionDetection({ charCoords, obstacleRefs }) {
         }
 
         return obstaclePairs.some(([bottomObstable, topObstacle]) => {
-            // if (!bottomObstable || !topObstacle) return false;
+            if (!bottomObstable || !topObstacle) return false;
 
-            // const bottomRect = bottomObstable.getBoundingClientRect()
-            // const topRect = topObstacle.getBoundingClientRect();
+            const bottomRect = bottomObstable.getBoundingClientRect()
+            const topRect = topObstacle.getBoundingClientRect();
 
-            // const hasCollidedWithBottom = charCoords.y + CHAR_HEIGHT >= bottomRect.y &&
-            //                   charCoords.x <= bottomRect.x + bottomRect.width - COLLISION_PADDING &&
-            //                   charCoords.x + CHAR_WIDTH - COLLISION_PADDING >= bottomRect.x;
+            const hasCollidedWithBottom = charCoords.y + CHAR_HEIGHT >= bottomRect.y &&
+                              charCoords.x <= bottomRect.x + bottomRect.width - COLLISION_PADDING &&
+                              charCoords.x + CHAR_WIDTH - COLLISION_PADDING >= bottomRect.x;
 
-            // const hasCollidedWithTop = charCoords.y <= topRect.y + topRect.height &&
-            //                         charCoords.x <= topRect.x + topRect.width - COLLISION_PADDING &&
-            //                         charCoords.x + CHAR_WIDTH - COLLISION_PADDING >= topRect.x;
+            const hasCollidedWithTop = charCoords.y <= topRect.y + topRect.height &&
+                                    charCoords.x <= topRect.x + topRect.width - COLLISION_PADDING &&
+                                    charCoords.x + CHAR_WIDTH - COLLISION_PADDING >= topRect.x;
 
-            // if (hasCollidedWithBottom || hasCollidedWithTop) {
-            //     return true;
-            // }
+            if (hasCollidedWithBottom || hasCollidedWithTop) {
+                return true;
+            }
 
             return false;
         });
