@@ -1,31 +1,53 @@
 import { useEffect, useRef, useState } from 'react';
-import {INITIAL_Y} from "@/constants/game";
+import {CHAR_HEIGHT, GAME_HEIGHT} from "@/constants/game";
+
+const JUMP_HEIGHT_PX = 100;
 
 const useCharacterMovement = ({
     jump,
     setJump,
-    charCoords
+    charCoords,
+    handleJumpClick,
+    handleComeDown,
+    spacePressed,
+    setSpacePressed
 }) => {
 
     useEffect(() => {
         let jumpTimeout;
         if (jump) {
             jumpTimeout = setTimeout(() => {
-                setJump(false);
+                setJump(false)
+                handleComeDown(); //do this AFTER the number of milliseconds specified by setTimeout
             }, 300);
         }
-        return () => clearTimeout(jumpTimeout);
+        return () => {
+            clearTimeout(jump)
+        }
     }, [jump, setJump]);
 
 
     useEffect(() => {
-        const handleSpacebar = (e) => {
-            if (e.code === 'Space' && !jump && charCoords.y > INITIAL_Y) { // Check if the dino is on the ground
-                setJump(true);
+        const handleSpacebarDown = (e) => {
+            if (e.code === 'Space') { 
+                setSpacePressed(true);// Removed check for if dino is on the ground
+                setJump(true); //this sets jumpClicked to true
+                handleJumpClick();
             }
         };
-        window.addEventListener('keydown', handleSpacebar);
-        return () => window.removeEventListener('keydown', handleSpacebar);
+
+        const handleSpacebarUp = (e) => {
+            if (e.code === 'Space') {
+                setSpacePressed(true);
+            }
+        };
+        window.addEventListener('keydown', handleSpacebarDown);
+        window.addEventListener('keyup', handleSpacebarUp);
+
+        return () => {
+            window.removeEventListener('keydown', handleSpacebarDown);
+            window.removeEventListener('keyup', handleSpacebarUp)
+        }
     }, [jump, charCoords.y, setJump]); // Include dinoCoords.y in the dependency array
 }
 
@@ -33,8 +55,23 @@ export default function useCharacter() {
     const charRef = useRef(null);
     const [charCoords, setCharCoords] = useState({ x: 200, y: 300 });
     const [jumpClicked, setJumpClicked] = useState(false)
-    useCharacterMovement({ jump: jumpClicked, setJump: setJumpClicked, charCoords })
+    const [bottomPosition, setBottomPosition] = useState(0);
+    const [spacePressed, setSpacePressed] = useState(false);
 
+    const updatedCharCoords = (GAME_HEIGHT-CHAR_HEIGHT) - charCoords.y;
+    
+    const handleJumpClick = () => {
+        // Increase the bottom position by JUMP_HEIGHT_PX
+        setBottomPosition(updatedCharCoords + JUMP_HEIGHT_PX)
+    }
+
+    const handleComeDown = () => {
+        setBottomPosition(0)
+    }
+
+    useCharacterMovement({ jump: jumpClicked, setJump: setJumpClicked, charCoords, handleJumpClick, handleComeDown, spacePressed, setSpacePressed })
+
+    
     useEffect(() => {
         if (charRef.current) {
             const rect = charRef.current.getBoundingClientRect();
@@ -62,5 +99,5 @@ export default function useCharacter() {
         };
     }, [jumpClicked, charRef]);
 
-    return { charRef, charCoords, jumpClicked, setCharCoords };
+    return { charRef, charCoords, jumpClicked, setCharCoords, bottomPosition };
 }

@@ -15,7 +15,7 @@ export const USER_GENERATED_OBSTACLES = [
 ]
 
 export const Game = () => {
-    const { charRef, charCoords, jumpClicked } = useCharacter();
+    const { charRef, charCoords, jumpClicked, bottomPosition } = useCharacter();
     const { points, isGameOver, obstacleRefs, obstacles } = useGameEngine({
         charCoords
     });
@@ -29,7 +29,7 @@ export const Game = () => {
             backgroundColor: '#ddd',
             display: 'flex',
         }}>
-            <Character width={CHAR_WIDTH} height={CHAR_HEIGHT} ref={charRef} jumpClicked={jumpClicked}/>
+            <Character width={CHAR_WIDTH} height={CHAR_HEIGHT} ref={charRef} jumpClicked={jumpClicked} bottomPosition={bottomPosition}/>
             {obstacles.map((obstacle) => (
                 <obstacle.Component
                     key={obstacle.id}
