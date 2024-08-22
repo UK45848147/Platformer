@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {Character} from "@/components/characters/Character";
 import {Pillar} from "@/components/obstacles/Pillar";
 import {Score} from "@/components/game/Score";
@@ -32,37 +33,40 @@ export const Game = () => {
         charCoords
     });
 
+    
+
+    
     return (
-        <div style={{
-            // position: 'relative',
-            width: `${GAME_WIDTH}px`,
-            // height: `${GAME_HEIGHT}px`,
-            overflow: 'hidden',
-            backgroundColor: '#ddd',
-            display: 'flex',
-            justifyContent: 'space-evenly'
-        }}>
-            <Character width={CHAR_WIDTH} height={CHAR_HEIGHT} ref={charRef} jumpClicked={jumpClicked} bottomPosition={bottomPosition}/>
-            {obstacles.map((obstacle) => (
-                <div>
-                    <obstacle.Component
-                        key={`bottom-${obstacle.id}`}
-                        ref={(el) => (obstacleRefs.current[obstacle.id] = el)}
-                        position={obstacle.position}
-                        bottom={0}
-                        height={obstacle.height}
-                    />
-                    <obstacle.Component
-                        key={`top-${obstacle.id}`}
-                        ref={(el) => (obstacleRefs.current[obstacle.id+1] = el)}
-                        position={obstacle.position}
-                        top={0}
-                        height={GAME_HEIGHT - obstacle.height}
-                    />
-                </div>
-            ))}
-            {isGameOver && <GameOver/>}
-            <Score points={parseInt(points / 10)}/>
-        </div>
+            <div style={{
+                // position: 'relative',
+                width: `${GAME_WIDTH}px`,
+                // height: `${GAME_HEIGHT}px`,
+                overflow: 'hidden',
+                backgroundColor: '#ddd',
+                display: 'flex',
+                justifyContent: 'space-evenly'
+            }}>
+                <Character width={CHAR_WIDTH} height={CHAR_HEIGHT} ref={charRef} jumpClicked={jumpClicked} bottomPosition={bottomPosition}/>
+                {obstacles.map((obstacle) => (
+                    <div>
+                        <obstacle.Component
+                            key={`bottom-${obstacle.id}`}
+                            ref={(el) => (obstacleRefs.current[obstacle.id] = el)}
+                            position={obstacle.position}
+                            bottom={0}
+                            height={obstacle.height}
+                        />
+                        <obstacle.Component
+                            key={`top-${obstacle.id}`}
+                            ref={(el) => (obstacleRefs.current[obstacle.id+1] = el)}
+                            position={obstacle.position}
+                            top={0}
+                            height={GAME_HEIGHT - obstacle.height}
+                        />
+                    </div>
+                ))}
+                {isGameOver && <GameOver/>}
+                <Score points={parseInt(points / 10)}/>
+            </div>
     );
 }

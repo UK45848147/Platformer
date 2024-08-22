@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {CHAR_HEIGHT, GAME_HEIGHT} from "@/constants/game";
 
-const JUMP_HEIGHT_PX = 100;
+const JUMP_HEIGHT_PX = 10;
 
 const useCharacterMovement = ({
     jump,
@@ -58,7 +58,7 @@ export default function useCharacter() {
     const [bottomPosition, setBottomPosition] = useState(0);
     const [spacePressed, setSpacePressed] = useState(false);
 
-    const updatedCharCoords = (GAME_HEIGHT-CHAR_HEIGHT) - charCoords.y;
+    const updatedCharCoords = charCoords.y;
     
     const handleJumpClick = () => {
         // Increase the bottom position by JUMP_HEIGHT_PX
