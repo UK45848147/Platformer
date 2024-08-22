@@ -58,6 +58,7 @@ export default function useGameEngine({ charCoords }) {
 
     useEffect(() => {
         if (detectCollision()) {
+            
             setIsGameOver(true);
         }
     }, [charCoords, isPaused, isGameOver, detectCollision, points]);

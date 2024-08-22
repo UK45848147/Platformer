@@ -2,21 +2,31 @@ import {useCallback} from 'react';
 import {CHAR_HEIGHT, CHAR_WIDTH} from "@/constants/game";
 
 export default function useCollisionDetection({ charCoords, obstacleRefs }) {
+    
     return useCallback(() => {
         const COLLISION_PADDING = 30;
 
-        return Object.values(obstacleRefs.current).some((obstacleRef) => {
-            if (!obstacleRef) return false;
+        const obstaclePairs = [];
+        const obstacleValues = Object.values(obstacleRefs.current);
+        for (let i = 0; i < obstacleValues.length; i += 2) {
+            obstaclePairs.push([obstacleValues[i], obstacleValues[i + 1]]);
+        }
 
-            const rect = obstacleRef.getBoundingClientRect();
-            const x = rect.x + window.pageXOffset;
-            const y = rect.y + window.pageYOffset;
+        return obstaclePairs.some(([bottomObstable, topObstacle]) => {
+            if (!bottomObstable || !topObstacle) return false;
 
-            if (
-                charCoords.y + CHAR_HEIGHT >= y &&
-                charCoords.x <= x + CHAR_WIDTH - COLLISION_PADDING &&
-                charCoords.x + CHAR_HEIGHT - COLLISION_PADDING >= x
-            ) {
+            const bottomRect = bottomObstable.getBoundingClientRect()
+            const topRect = topObstacle.getBoundingClientRect();
+
+            const hasCollidedWithBottom = charCoords.y + CHAR_HEIGHT >= bottomRect.y &&
+                              charCoords.x <= bottomRect.x + bottomRect.width - COLLISION_PADDING &&
+                              charCoords.x + CHAR_WIDTH - COLLISION_PADDING >= bottomRect.x;
+
+            const hasCollidedWithTop = charCoords.y <= topRect.y + topRect.height &&
+                                    charCoords.x <= topRect.x + topRect.width - COLLISION_PADDING &&
+                                    charCoords.x + CHAR_WIDTH - COLLISION_PADDING >= topRect.x;
+
+            if (hasCollidedWithBottom || hasCollidedWithTop) {
                 return true;
             }
 

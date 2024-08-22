@@ -1,6 +1,6 @@
 import {forwardRef} from "react";
 
-const JUMP_HEIGHT_PX = 200;
+const JUMP_HEIGHT_PX = 300;
 const JUMP_AIRTIME_S = 0.3;
 // eslint-disable-next-line react/display-name
 export const Character = forwardRef(({ jumpClicked, isJumping, height, width }, ref) => {
