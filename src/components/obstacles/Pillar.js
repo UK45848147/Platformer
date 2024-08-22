@@ -9,7 +9,7 @@ export  const Pillar = forwardRef(({ position, bottom, height, top }, ref) => {
                 position: 'absolute',
                 right: `${position}px`,
                 ...(bottom !== undefined ? { bottom: `${bottom}px` } : { top: `${top}px` }),
-                width: '75px',
+                width: '45px',
                 height: `${height}px`,
                 backgroundColor: 'red',
             }}

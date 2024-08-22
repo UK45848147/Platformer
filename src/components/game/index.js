@@ -4,7 +4,7 @@ import {Pillar} from "@/components/obstacles/Pillar";
 import {Score} from "@/components/game/Score";
 import {GameOver} from "@/components/game/GameOver";
 import useGameEngine from "@/game_engine/game_engine";
-import {CHAR_HEIGHT, CHAR_WIDTH, GAME_HEIGHT, GAME_WIDTH} from "@/constants/game";
+import {CHAR_HEIGHT, CHAR_WIDTH, GAME_HEIGHT, GAME_WIDTH, GAP} from "@/constants/game";
 import useCharacter from "@/game_engine/character";
 import {generatePosition, generateHeight} from "@/utils/character";
 
@@ -61,7 +61,7 @@ export const Game = () => {
                             ref={(el) => (obstacleRefs.current[obstacle.id+1] = el)}
                             position={obstacle.position}
                             top={0}
-                            height={GAME_HEIGHT - obstacle.height}
+                            height={GAME_HEIGHT - GAP - obstacle.height}
                         />
                     </div>
                 ))}
