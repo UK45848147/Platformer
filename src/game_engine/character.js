@@ -52,17 +52,18 @@ const useCharacterMovement = ({
 }
 
 export default function useCharacter() {
+    // const halfHeight = window.innerHeight/2;
     const charRef = useRef(null);
     const [charCoords, setCharCoords] = useState({ x: 200, y: 300 });
     const [jumpClicked, setJumpClicked] = useState(false)
-    const [bottomPosition, setBottomPosition] = useState(0);
+    const [bottomPosition, setBottomPosition] = useState(350);
     const [spacePressed, setSpacePressed] = useState(false);
 
     const updatedCharCoords = charCoords.y;
     
     const handleJumpClick = () => {
         // Increase the bottom position by JUMP_HEIGHT_PX
-        setBottomPosition(updatedCharCoords + JUMP_HEIGHT_PX)
+        setBottomPosition(window.innerHeight - updatedCharCoords + JUMP_HEIGHT_PX)
     }
 
     const handleComeDown = () => {
