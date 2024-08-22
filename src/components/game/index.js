@@ -7,12 +7,24 @@ import {CHAR_HEIGHT, CHAR_WIDTH, GAME_HEIGHT, GAME_WIDTH} from "@/constants/game
 import useCharacter from "@/game_engine/character";
 import {generatePosition, generateHeight} from "@/utils/character";
 
-export const USER_GENERATED_OBSTACLES = [
-    { id: 1, position: generatePosition(), Component: Pillar, height: generateHeight() },
-    { id: 3, position: generatePosition(1.2), Component: Pillar, height: generateHeight() },
-    { id: 5, position: generatePosition(1.4), Component: Pillar, height: generateHeight() },
-    { id: 7, position: generatePosition(1.6), Component: Pillar, height: generateHeight() }
-]
+export const OBSTACLE_LENGTH = 30;
+
+const generateObstacles = (count) => {
+    const obstacles = [];
+    for (let i = 0; i < count; i++) {
+        obstacles.push({
+            id: i * 2 + 1,
+            position: generatePosition(i * 0.35 + 1),
+            Component: Pillar,
+            height: generateHeight()
+        });
+    }
+    return obstacles;
+}
+
+export const USER_GENERATED_OBSTACLES = generateObstacles(OBSTACLE_LENGTH);
+
+
 
 export const Game = () => {
     const { charRef, charCoords, jumpClicked } = useCharacter();
@@ -28,6 +40,7 @@ export const Game = () => {
             overflow: 'hidden',
             backgroundColor: '#ddd',
             display: 'flex',
+            justifyContent: 'space-evenly'
         }}>
             <Character width={CHAR_WIDTH} height={CHAR_HEIGHT} ref={charRef} jumpClicked={jumpClicked}/>
             {obstacles.map((obstacle) => (
